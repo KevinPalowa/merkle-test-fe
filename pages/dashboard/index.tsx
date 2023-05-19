@@ -10,10 +10,13 @@ import { Button, Snackbar, Alert } from "@mui/material";
 import Head from "next/head";
 import Link from "next/link";
 import DeleteConfirmationModal from "@/components/DeleteConfirmationModal";
+import { useLogin } from "@/hooks/login";
 export default function Dashboard() {
   const { data, isLoading } = useGetUsers();
   const [showModalAdd, setShowModalAdd] = useState(false);
   const [showModalEdit, setShowModalEdit] = useState(false);
+  const [showLogoutConfirmation, setShowLogoutConfirmation] = useState(false);
+  const { logout } = useLogin();
   const [showConfirmationDelete, setShowConfirmationDelete] = useState(false);
   const [idToDelete, setIdToDelete] = useState("");
   const [valuesToEdit, setValuesToEdit] = useState<DefaultValue | undefined>();
@@ -101,17 +104,28 @@ export default function Dashboard() {
         </Alert>
       </Snackbar>
       <div className="container mx-auto mt-5 drop-shadow-md">
-        <div className="flex justify-between">
+        <div className="flex justify-between mb-5">
           <h1 className="text-2xl font-bold">User List</h1>
-          <Button
-            color="primary"
-            onClick={() => {
-              setShowModalAdd(true);
-            }}
-            variant="outlined"
-          >
-            +Add User
-          </Button>
+          <div className="space-x-2">
+            <Button
+              color="primary"
+              onClick={() => {
+                setShowModalAdd(true);
+              }}
+              variant="outlined"
+            >
+              +Add User
+            </Button>
+            <Button
+              color="error"
+              onClick={() => {
+                setShowLogoutConfirmation(true);
+              }}
+              variant="outlined"
+            >
+              Logout
+            </Button>
+          </div>
         </div>
         <DataTable
           columns={columns}
@@ -142,6 +156,18 @@ export default function Dashboard() {
               setShowConfirmationDelete(false);
             },
           });
+        }}
+      />
+
+      <DeleteConfirmationModal
+        open={showLogoutConfirmation}
+        onClose={() => {
+          setShowLogoutConfirmation(false);
+        }}
+        title="Logout"
+        message="Are you sure you want to logout?"
+        onConfirm={() => {
+          logout();
         }}
       />
     </>

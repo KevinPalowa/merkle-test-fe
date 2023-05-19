@@ -5,7 +5,8 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 
 export const Login = () => {
-  const { mutate, isError, error, isLoading } = useLogin();
+  const { login } = useLogin();
+  const { mutate, isError, error, isLoading } = login;
   const {
     register,
     handleSubmit,

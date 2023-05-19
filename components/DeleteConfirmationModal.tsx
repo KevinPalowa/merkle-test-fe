@@ -13,6 +13,7 @@ type Props = {
   title: string;
   message: string;
   isLoading?: boolean;
+  buttonMessage?: string;
 };
 const DeleteConfirmationModal = ({
   open,
@@ -21,6 +22,7 @@ const DeleteConfirmationModal = ({
   title,
   message,
   isLoading,
+  buttonMessage,
 }: Props): JSX.Element => {
   const [isConfirmed, setIsConfirmed] = useState(false);
 
@@ -41,7 +43,7 @@ const DeleteConfirmationModal = ({
           color="error"
           disabled={isLoading}
         >
-          {isLoading ? "Loading..." : "Delete"}
+          {isLoading ? "Loading..." : buttonMessage ? buttonMessage : "Yes"}
         </Button>
       </DialogActions>
     </Dialog>

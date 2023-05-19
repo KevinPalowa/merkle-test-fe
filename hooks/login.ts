@@ -10,10 +10,19 @@ const doLogin = async (payload: LoginPayload) => {
 
   return data;
 };
+const doLogout = async () => {
+  localStorage.removeItem(STORAGE_TOKEN_KEY);
+  window.location.href = "/";
+};
 export const useLogin = () => {
-  return useMutation<LoginResponse, AxiosError<string>, LoginPayload>(doLogin, {
+  const loginMutation = useMutation<
+    LoginResponse,
+    AxiosError<string>,
+    LoginPayload
+  >(doLogin, {
     onSuccess: (e) => {
       localStorage.setItem(STORAGE_TOKEN_KEY, e.token);
     },
   });
+  return { login: loginMutation, logout: doLogout };
 };

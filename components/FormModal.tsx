@@ -109,6 +109,7 @@ export const FormModal = ({
         open={showToast}
         autoHideDuration={6000}
         onClose={() => setShowToast(false)}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
       >
         <Alert
           onClose={() => setShowToast(false)}

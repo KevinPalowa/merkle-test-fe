@@ -263,7 +263,8 @@ export const FormModal = ({
               <Button
                 disabled={isLoadingEdit || isLoading}
                 type="submit"
-                variant="contained"
+                variant="outlined"
+                color="primary"
               >
                 {type === "ADD" ? "Add" : "Edit"}
               </Button>

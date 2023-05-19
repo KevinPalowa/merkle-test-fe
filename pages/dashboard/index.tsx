@@ -43,9 +43,9 @@ export default function Dashboard() {
       name: "Action",
       button: true,
       cell: (row) => (
-        <div>
+        <div className="space-x-1">
           <Link href={`dashboard/${row.id}`}>
-            <RemoveRedEyeIcon />
+            <RemoveRedEyeIcon className="text-xl" />
           </Link>
           <button
             onClick={() => {
@@ -67,7 +67,7 @@ export default function Dashboard() {
               setShowModalEdit(true);
             }}
           >
-            <CreateIcon />
+            <CreateIcon className="text-xl" />
           </button>
           <button
             onClick={() => {
@@ -75,7 +75,7 @@ export default function Dashboard() {
               setIdToDelete(row.id.toString());
             }}
           >
-            <DeleteIcon />
+            <DeleteIcon className="text-xl text-red-600" />
           </button>
         </div>
       ),
@@ -100,14 +100,15 @@ export default function Dashboard() {
           Success Delete user!
         </Alert>
       </Snackbar>
-      <div>
+      <div className="container mx-auto mt-5 drop-shadow-md">
         <div className="flex justify-between">
-          <h1>User List</h1>
+          <h1 className="text-2xl font-bold">User List</h1>
           <Button
-            color="secondary"
+            color="primary"
             onClick={() => {
               setShowModalAdd(true);
             }}
+            variant="outlined"
           >
             +Add User
           </Button>

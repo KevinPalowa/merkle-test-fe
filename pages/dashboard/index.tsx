@@ -9,12 +9,15 @@ import { DefaultValue, FormModal } from "@/components/FormModal";
 import { Button, Snackbar, Alert } from "@mui/material";
 import Head from "next/head";
 import Link from "next/link";
+import DeleteConfirmationModal from "@/components/DeleteConfirmationModal";
 export default function Dashboard() {
   const { data, isLoading } = useGetUsers();
   const [showModalAdd, setShowModalAdd] = useState(false);
   const [showModalEdit, setShowModalEdit] = useState(false);
+  const [showConfirmationDelete, setShowConfirmationDelete] = useState(false);
+  const [idToDelete, setIdToDelete] = useState("");
   const [valuesToEdit, setValuesToEdit] = useState<DefaultValue | undefined>();
-  const { mutate } = useDeleteUsers();
+  const { mutate, isLoading: isLoadingDelete } = useDeleteUsers();
   const [showToast, setShowToast] = useState(false);
   const columns: TableColumn<UserResponse>[] = [
     {
@@ -68,11 +71,8 @@ export default function Dashboard() {
           </button>
           <button
             onClick={() => {
-              mutate(row.id.toString(), {
-                onSuccess: () => {
-                  setShowToast(true);
-                },
-              });
+              setShowConfirmationDelete(true);
+              setIdToDelete(row.id.toString());
             }}
           >
             <DeleteIcon />
@@ -89,6 +89,7 @@ export default function Dashboard() {
       <Snackbar
         open={showToast}
         autoHideDuration={6000}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
         onClose={() => setShowToast(false)}
       >
         <Alert
@@ -124,6 +125,23 @@ export default function Dashboard() {
         setOpen={setShowModalEdit}
         type="EDIT"
         defaultValues={valuesToEdit}
+      />
+      <DeleteConfirmationModal
+        open={showConfirmationDelete}
+        onClose={() => {
+          setShowConfirmationDelete(false);
+        }}
+        isLoading={isLoadingDelete}
+        title="Delete Confirmation"
+        message="Are you sure you want to delete this user?"
+        onConfirm={() => {
+          mutate(idToDelete, {
+            onSuccess: () => {
+              setShowToast(true);
+              setShowConfirmationDelete(false);
+            },
+          });
+        }}
       />
     </>
   );
